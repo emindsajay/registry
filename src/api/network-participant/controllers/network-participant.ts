@@ -27,7 +27,7 @@ export default {
 
             console.log({ "onSubscribe response": subscriberResponse })
 
-            const decryptedChallenge = await decryptMessage(metaContent, subscriberResponse.answer);
+            const decryptedChallenge = await decryptMessage(subscriberResponse.answer, signingPublicKey);
             console.log({ decryptedChallenge })
 
             if (challenge !== decryptedChallenge) {
@@ -77,7 +77,6 @@ const decryptMessage = async (signedMessageBase64: string, publicKeyBase64: stri
 };
 
 const onSubscribe = async (subscriberId: string, subscriberUrl: string, challenge: string) => {
-
     console.log("Preparing request to subscriber:", subscriberUrl);
 
     const url = `${subscriberUrl}/on_subscribe`;
