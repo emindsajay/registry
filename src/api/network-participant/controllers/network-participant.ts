@@ -56,7 +56,7 @@ export default {
                     valid_until: body.valid_until,
                     created: new Date().toISOString(),
                     updated: new Date().toISOString(),
-                    status: body.status
+                    status: "SUBSCRIBED"
                 }
             };
 
