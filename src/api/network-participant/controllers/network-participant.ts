@@ -2,6 +2,9 @@ import { JSDOM } from "jsdom";
 import _sodium from "libsodium-wrappers";
 import { SubscribeRequest } from "../../../types/requests/SubscribeRequest";
 
+const NAMESPACE = process.env.DEDI_NAMESPACE || "fide.org.temp";
+const registryName = "network-subscribers-temp"
+
 export default {
     async subscribe(ctx) {
         try {
@@ -33,7 +36,36 @@ export default {
             if (challenge !== decryptedChallenge) {
                 throw new Error("Challenge verification failed");
             }
-            ctx.send({ message: "Verification is successful" }, 200);
+
+
+            const data = {
+                record_name: body.subscriber_id,
+                description: body.subscriber_id,
+                details: {
+                    key_id: body.key_id,
+                    domain: body.domain,
+                    type: body.type,
+                    nonce: body.nonce,
+                    url: body.url,
+                    city_code: body.location.city.code,
+                    country_code: body.location.country.code,
+                    signing_public_key: body.signing_public_key,
+                    subscriber_id: body.subscriber_id,
+                    encr_public_key: body.encr_public_key,
+                    valid_from: body.valid_from,
+                    valid_until: body.valid_until,
+                    created: new Date().toISOString(),
+                    updated: new Date().toISOString(),
+                    status: body.status
+                }
+            };
+
+            await strapi
+                .api("dedi")
+                .service("dedi")
+                .addRecord(NAMESPACE, registryName, data);
+
+            ctx.send({ message: "Record verified and created" }, 200);
         }
         catch (error) {
             console.log(error);
