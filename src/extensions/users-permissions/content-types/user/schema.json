@@ -26,20 +26,11 @@
       "private": true,
       "searchable": false
     },
-    "full_name": {
-      "type": "string"
-    },
     "email": {
       "type": "email",
       "minLength": 6,
       "configurable": false,
       "required": true
-    },
-    "phone_number": {
-      "type": "string"
-    },
-    "alternate_phone_number": {
-      "type": "string"
     },
     "email_verified": {
       "type": "boolean",
@@ -58,18 +49,28 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "account_status": {
-      "type": "enumeration",
-      "enum": [
-        "ACTIVE",
-        "INACTIVE"
-      ]
-    },
     "verification_token": {
       "type": "string",
       "configurable": false,
       "private": true,
       "searchable": false
+    },
+    "full_name": {
+      "type": "string"
+    },
+    "phone_number": {
+      "type": "string"
+    },
+    "alternate_phone_number": {
+      "type": "string"
+    },
+    "account_status": {
+      "type": "enumeration",
+      "enum": [
+        "ACTIVE",
+        "INACTIVE"
+      ],
+      "default": "ACTIVE"
     }
   }
 }

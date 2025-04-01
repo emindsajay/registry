@@ -856,7 +856,8 @@ export interface PluginUsersPermissionsUser
     draftAndPublish: false;
   };
   attributes: {
-    account_status: Schema.Attribute.Enumeration<['ACTIVE', 'INACTIVE']>;
+    account_status: Schema.Attribute.Enumeration<['ACTIVE', 'INACTIVE']> &
+      Schema.Attribute.DefaultTo<'ACTIVE'>;
     alternate_phone_number: Schema.Attribute.String;
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     createdAt: Schema.Attribute.DateTime;
