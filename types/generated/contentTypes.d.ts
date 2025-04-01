@@ -856,9 +856,9 @@ export interface PluginUsersPermissionsUser
     draftAndPublish: false;
   };
   attributes: {
-    account_status: Schema.Attribute.Enumeration<['ACTIVE', 'INACTIVE']> &
+    accountStatus: Schema.Attribute.Enumeration<['ACTIVE', 'INACTIVE']> &
       Schema.Attribute.DefaultTo<'ACTIVE'>;
-    alternate_phone_number: Schema.Attribute.String;
+    alternatePhoneNumber: Schema.Attribute.String;
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -868,9 +868,8 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
-    email_verified: Schema.Attribute.Boolean &
-      Schema.Attribute.DefaultTo<false>;
-    full_name: Schema.Attribute.String;
+    emailVerified: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    fullName: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -882,7 +881,7 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
-    phone_number: Schema.Attribute.String;
+    phoneNumber: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     role: Schema.Attribute.Relation<
       'manyToOne',
@@ -897,7 +896,7 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.SetMinMaxLength<{
         minLength: 3;
       }>;
-    verification_token: Schema.Attribute.String & Schema.Attribute.Private;
+    verificationToken: Schema.Attribute.String & Schema.Attribute.Private;
   };
 }
 

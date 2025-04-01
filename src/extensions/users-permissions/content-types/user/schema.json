@@ -32,7 +32,7 @@
       "configurable": false,
       "required": true
     },
-    "email_verified": {
+    "emailVerified": {
       "type": "boolean",
       "default": false,
       "configurable": false
@@ -49,22 +49,22 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "verification_token": {
+    "verificationToken": {
       "type": "string",
       "configurable": false,
       "private": true,
       "searchable": false
     },
-    "full_name": {
+    "fullName": {
       "type": "string"
     },
-    "phone_number": {
+    "phoneNumber": {
       "type": "string"
     },
-    "alternate_phone_number": {
+    "alternatePhoneNumber": {
       "type": "string"
     },
-    "account_status": {
+    "accountStatus": {
       "type": "enumeration",
       "enum": [
         "ACTIVE",
