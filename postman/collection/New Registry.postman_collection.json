@@ -1,0 +1,329 @@
+{
+	"info": {
+		"_postman_id": "f16750ad-e999-40ed-bda1-2dea06cc88e8",
+		"name": "New Registry",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "991546"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Signup",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Store JWT and Email in collection variables\", function () {",
+									"    let responseJson = pm.response.json();",
+									"    ",
+									"    if (responseJson.jwt) {",
+									"        pm.collectionVariables.set(\"jwtToken\", responseJson.jwt);",
+									"        console.log(\"JWT stored successfully: \" + responseJson.jwt);",
+									"    } else {",
+									"        pm.test(\"JWT token is missing in response\", function() {",
+									"            pm.expect(responseJson.jwt).to.exist;",
+									"        });",
+									"    }",
+									"    ",
+									"    if (responseJson.user && responseJson.user.email) {",
+									"        pm.collectionVariables.set(\"userEmail\", responseJson.user.email);",
+									"        console.log(\"Email stored successfully: \" + responseJson.user.email);",
+									"    } else {",
+									"        pm.test(\"Email is missing in response\", function() {",
+									"            pm.expect(responseJson.user.email).to.exist;",
+									"        });",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"password\": \"{{password}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/signup",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Signup",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"{{$randomFirstName}}.{{$randomLastName}}@gmail.com\",\n    \"password\": \"User@123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/signup",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"signup"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"jwt\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzgsImlhdCI6MTc0MzQ5NDc3MywiZXhwIjoxNzQzNTgxMTczfQ.an21aIoTD5dieohKMNWBDGEVz_cKGOtzW_HRcZHOdUU\",\n    \"user\": {\n        \"id\": 38,\n        \"documentId\": \"ws2t1iermfvub9nmreofkyaf\",\n        \"username\": \"Mireille.Sauer@gmail.com\",\n        \"email\": \"Mireille.Sauer@gmail.com\",\n        \"blocked\": false,\n        \"createdAt\": \"2025-04-01T08:06:13.133Z\",\n        \"updatedAt\": \"2025-04-01T08:06:13.133Z\",\n        \"publishedAt\": \"2025-04-01T08:06:13.041Z\",\n        \"phone_number\": null,\n        \"alternate_phone_number\": null,\n        \"full_name\": null,\n        \"email_verified\": false,\n        \"account_status\": null\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Local",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"identifier\": \"{{userEmail}}\",\n    \"password\": \"{{password}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/local",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"local"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Local",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"identifier\": \"Mireille.Sauer@gmail.com\",\n    \"password\": \"User@123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/auth/local",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth",
+										"local"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"jwt\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzgsImlhdCI6MTc0MzQ5NTc5MywiZXhwIjoxNzQzNTgyMTkzfQ.YWZiAJwd0ck9xgsc0ongnRwriBcnaHf53CFDzlGrc-k\",\n    \"user\": {\n        \"id\": 38,\n        \"documentId\": \"ws2t1iermfvub9nmreofkyaf\",\n        \"username\": \"Mireille.Sauer@gmail.com\",\n        \"email\": \"Mireille.Sauer@gmail.com\",\n        \"blocked\": false,\n        \"createdAt\": \"2025-04-01T08:06:13.133Z\",\n        \"updatedAt\": \"2025-04-01T08:06:13.133Z\",\n        \"publishedAt\": \"2025-04-01T08:06:13.041Z\",\n        \"phone_number\": null,\n        \"alternate_phone_number\": null,\n        \"full_name\": null,\n        \"email_verified\": false,\n        \"account_status\": null,\n        \"role\": {\n            \"id\": 4,\n            \"documentId\": \"y41xl0czghuvadl9tl9o7uf0\",\n            \"name\": \"User\",\n            \"description\": \"User role can update their own data\",\n            \"type\": \"user\",\n            \"createdAt\": \"2025-04-01T08:04:26.217Z\",\n            \"updatedAt\": \"2025-04-01T08:04:26.217Z\",\n            \"publishedAt\": \"2025-04-01T08:04:26.217Z\"\n        }\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Main",
+			"item": [
+				{
+					"name": "Lookup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/registry/lookup",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"registry",
+								"lookup"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Lookup",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"subscriber_id\": \"178f3-2401-4900-1c9a-941d-4d3e-d696-3cc2-145d.ngrok-free.app\",\n    \"url\": \"https://78f3-2401-4900-1c9a-941d-4d3e-d696-3cc2-145d.ngrok-free.app\",\n    \"type\": \"BAP\",\n    \"domain\": \"mobility\",\n    \"location\": {\n        \"city\": {\n            \"name\": \"Bangalore\",\n            \"code\": \"BLR\"\n        },\n        \"country\": {\n            \"name\": \"India\",\n            \"code\": \"IN\"\n        }\n    },\n    \"key_id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n    \"signing_public_key\": \"LcyaWzmzM4/1QHif71+aZh9hspzp3sH1uuCtb102mRM=\",\n    \"encr_public_key\": \"LcyaWzmzM4/1QHif71+aZh9hspzp3sH1uuCtb102mRM=\",\n    \"valid_from\": \"2025-03-18T16:36:08.651Z\",\n    \"valid_until\": \"2026-03-18T16:36:08.651Z\",\n    \"status\": \"SUBSCRIBED\",\n    \"created\": \"2025-03-18T16:36:08.651Z\",\n    \"updated\": \"2025-03-18T16:36:08.651Z\",\n    \"nonce\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/registry/lookup",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"registry",
+										"lookup"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"status\": \"SUBSCRIBED\",\n        \"type\": \"BAP\",\n        \"domain\": \"retail:1.1.0\",\n        \"signing_public_key\": \"FXp25x9hmCzPorKQxOZYa4jzU/cqq9DKO4wmGcgtfCI=\",\n        \"subscriber_id\": \"shreyvishal\",\n        \"unique_key_id\": \"shreyvishal-key\",\n        \"valid_until\": \"2026-03-19T10:00:00Z\",\n        \"subscriber_url\": \"https://6fcf-2401-4900-1c5c-91cb-ed2b-3464-f823-9936.ngrok-free.app\",\n        \"created\": \"2025-03-19T09:30:00Z\",\n        \"valid_from\": \"2025-03-19T10:00:00Z\",\n        \"encr_public_key\": \"FXp25x9hmCzPorKQxOZYa4jzU/cqq9DKO4wmGcgtfCI=\",\n        \"updated\": \"2025-03-19T09:30:00Z\"\n    },\n    {\n        \"status\": \"SUBSCRIBED\",\n        \"type\": \"BAP\",\n        \"domain\": \"dsep:jobs\",\n        \"signing_public_key\": \"FXp25x9hmCzPorKQxOZYa4jzU/cqq9DKO4wmGcgtfCI=\",\n        \"subscriber_id\": \"shreyvishal\",\n        \"unique_key_id\": \"shreyvishal-key\",\n        \"valid_until\": \"2026-03-19T10:00:00Z\",\n        \"subscriber_url\": \"https://6fcf-2401-4900-1c5c-91cb-ed2b-3464-f823-9936.ngrok-free.app\",\n        \"created\": \"2025-03-19T09:30:00Z\",\n        \"valid_from\": \"2025-03-19T10:00:00Z\",\n        \"encr_public_key\": \"FXp25x9hmCzPorKQxOZYa4jzU/cqq9DKO4wmGcgtfCI=\",\n        \"updated\": \"2025-03-19T09:30:00Z\"\n    },\n    {\n        \"status\": \"SUBSCRIBED\",\n        \"type\": \"BAP\",\n        \"domain\": \"mobility\",\n        \"signing_public_key\": \"MIIBIjANBgkqh...\",\n        \"subscriber_id\": \"12345\",\n        \"unique_key_id\": \"key-12345\",\n        \"valid_until\": \"2026-03-19T10:00:00Z\",\n        \"subscriber_url\": \"https://example.com/subscriber\",\n        \"created\": \"2025-03-19T09:30:00Z\",\n        \"valid_from\": \"2025-03-19T10:00:00Z\",\n        \"encr_public_key\": \"MIIBIjANBgkqh...\",\n        \"updated\": \"2025-03-19T09:30:00Z\"\n    },\n    {\n        \"status\": \"SUBSCRIBED\",\n        \"type\": \"BAP\",\n        \"domain\": \"dsep:scholarships\",\n        \"signing_public_key\": \"FXp25x9hmCzPorKQxOZYa4jzU/cqq9DKO4wmGcgtfCI=\",\n        \"subscriber_id\": \"shreyvishal\",\n        \"unique_key_id\": \"shreyvishal-key\",\n        \"valid_until\": \"2026-03-19T10:00:00Z\",\n        \"subscriber_url\": \"https://6fcf-2401-4900-1c5c-91cb-ed2b-3464-f823-9936.ngrok-free.app\",\n        \"created\": \"2025-03-19T09:30:00Z\",\n        \"valid_from\": \"2025-03-19T10:00:00Z\",\n        \"encr_public_key\": \"FXp25x9hmCzPorKQxOZYa4jzU/cqq9DKO4wmGcgtfCI=\",\n        \"updated\": \"2025-03-19T09:30:00Z\"\n    },\n    {\n        \"status\": \"SUBSCRIBED\"\n    },\n    {\n        \"status\": \"SUBSCRIBED\"\n    },\n    {\n        \"status\": \"SUBSCRIBED\",\n        \"type\": \"BAP\",\n        \"domain\": \"deg:retail\",\n        \"signing_public_key\": \"FXp25x9hmCzPorKQxOZYa4jzU/cqq9DKO4wmGcgtfCI=\",\n        \"subscriber_id\": \"shreyvishal\",\n        \"unique_key_id\": \"shreyvishal-key\",\n        \"valid_until\": \"2026-03-19T10:00:00Z\",\n        \"subscriber_url\": \"https://6fcf-2401-4900-1c5c-91cb-ed2b-3464-f823-9936.ngrok-free.app\",\n        \"created\": \"2025-03-19T09:30:00Z\",\n        \"valid_from\": \"2025-03-19T10:00:00Z\",\n        \"encr_public_key\": \"FXp25x9hmCzPorKQxOZYa4jzU/cqq9DKO4wmGcgtfCI=\",\n        \"updated\": \"2025-03-19T09:30:00Z\"\n    },\n    {\n        \"status\": \"SUBSCRIBED\",\n        \"type\": \"BAP\",\n        \"domain\": \"dsep:mentor\",\n        \"signing_public_key\": \"FXp25x9hmCzPorKQxOZYa4jzU/cqq9DKO4wmGcgtfCI=\",\n        \"subscriber_id\": \"shreyvishal\",\n        \"unique_key_id\": \"shreyvishal-key\",\n        \"valid_until\": \"2026-03-19T10:00:00Z\",\n        \"subscriber_url\": \"https://6fcf-2401-4900-1c5c-91cb-ed2b-3464-f823-9936.ngrok-free.app\",\n        \"created\": \"2025-03-19T09:30:00Z\",\n        \"valid_from\": \"2025-03-19T10:00:00Z\",\n        \"encr_public_key\": \"FXp25x9hmCzPorKQxOZYa4jzU/cqq9DKO4wmGcgtfCI=\",\n        \"updated\": \"2025-03-19T09:30:00Z\"\n    },\n    {\n        \"status\": \"SUBSCRIBED\",\n        \"type\": \"BAP\",\n        \"domain\": \"deg:finance\",\n        \"signing_public_key\": \"FXp25x9hmCzPorKQxOZYa4jzU/cqq9DKO4wmGcgtfCI=\",\n        \"subscriber_id\": \"shreyvishals\",\n        \"unique_key_id\": \"shreyvishal-key\",\n        \"valid_until\": \"2026-03-19T10:00:00Z\",\n        \"subscriber_url\": \"https://6fcf-2401-4900-1c5c-91cb-ed2b-3464-f823-9936.ngrok-free.app\",\n        \"created\": \"2025-03-19T09:30:00Z\",\n        \"valid_from\": \"2025-03-19T10:00:00Z\",\n        \"encr_public_key\": \"FXp25x9hmCzPorKQxOZYa4jzU/cqq9DKO4wmGcgtfCI=\",\n        \"updated\": \"2025-03-19T09:30:00Z\"\n    },\n    {\n        \"status\": \"SUBSCRIBED\",\n        \"type\": \"BAP\",\n        \"domain\": \"deg:finance\",\n        \"signing_public_key\": \"FXp25x9hmCzPorKQxOZYa4jzU/cqq9DKO4wmGcgtfCI=\",\n        \"subscriber_id\": \"shreyvishalss\",\n        \"unique_key_id\": \"shreyvishal-key\",\n        \"valid_until\": \"2026-03-19T10:00:00Z\",\n        \"subscriber_url\": \"https://6fcf-2401-4900-1c5c-91cb-ed2b-3464-f823-9936.ngrok-free.app\",\n        \"created\": \"2025-03-19T09:30:00Z\",\n        \"valid_from\": \"2025-03-19T10:00:00Z\",\n        \"encr_public_key\": \"FXp25x9hmCzPorKQxOZYa4jzU/cqq9DKO4wmGcgtfCI=\",\n        \"updated\": \"2025-03-19T09:30:00Z\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Subscribe",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"subscriber_id\": \"178f3-2401-4900-1c9a-941d-4d3e-d696-3cc2-145d.ngrok-free.app\",\n    \"url\": \"https://78f3-2401-4900-1c9a-941d-4d3e-d696-3cc2-145d.ngrok-free.app\",\n    \"type\": \"BAP\",\n    \"domain\": \"mobility\",\n    \"location\": {\n        \"city\": {\n            \"name\": \"Bangalore\",\n            \"code\": \"BLR\"\n        },\n        \"country\": {\n            \"name\": \"India\",\n            \"code\": \"IN\"\n        }\n    },\n    \"key_id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n    \"signing_public_key\": \"LcyaWzmzM4/1QHif71+aZh9hspzp3sH1uuCtb102mRM=\",\n    \"encr_public_key\": \"LcyaWzmzM4/1QHif71+aZh9hspzp3sH1uuCtb102mRM=\",\n    \"valid_from\": \"2025-03-18T16:36:08.651Z\",\n    \"valid_until\": \"2026-03-18T16:36:08.651Z\",\n    \"status\": \"INITIATED\",\n    \"created\": \"2025-03-18T16:36:08.651Z\",\n    \"updated\": \"2025-03-18T16:36:08.651Z\",\n    \"nonce\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/registry/subscribe",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"registry",
+								"subscribe"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.0.1:1337/api",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "User@123",
+			"type": "string"
+		},
+		{
+			"key": "jwtToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "userEmail",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
