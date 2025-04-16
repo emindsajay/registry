@@ -399,6 +399,40 @@ export interface ApiDomainDomain extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiUserNetworkSubscriberUserNetworkSubscriber
+  extends Struct.SingleTypeSchema {
+  collectionName: 'user_network_subscribers';
+  info: {
+    displayName: 'User Network Subscriber';
+    pluralName: 'user-network-subscribers';
+    singularName: 'user-network-subscriber';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::user-network-subscriber.user-network-subscriber'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    record_id: Schema.Attribute.String;
+    record_name: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
 export interface PluginContentReleasesRelease
   extends Struct.CollectionTypeSchema {
   collectionName: 'strapi_releases';
@@ -911,6 +945,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::domain.domain': ApiDomainDomain;
+      'api::user-network-subscriber.user-network-subscriber': ApiUserNetworkSubscriberUserNetworkSubscriber;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

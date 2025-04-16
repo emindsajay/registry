@@ -1,0 +1,25 @@
+{
+  "kind": "singleType",
+  "collectionName": "user_network_subscribers",
+  "info": {
+    "singularName": "user-network-subscriber",
+    "pluralName": "user-network-subscribers",
+    "displayName": "User Network Subscriber"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "record_id": {
+      "type": "string"
+    },
+    "record_name": {
+      "type": "string"
+    }
+  }
+}
