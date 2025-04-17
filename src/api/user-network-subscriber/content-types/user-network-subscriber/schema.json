@@ -1,5 +1,5 @@
 {
-  "kind": "singleType",
+  "kind": "collectionType",
   "collectionName": "user_network_subscribers",
   "info": {
     "singularName": "user-network-subscriber",

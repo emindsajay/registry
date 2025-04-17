@@ -400,7 +400,7 @@ export interface ApiDomainDomain extends Struct.CollectionTypeSchema {
 }
 
 export interface ApiUserNetworkSubscriberUserNetworkSubscriber
-  extends Struct.SingleTypeSchema {
+  extends Struct.CollectionTypeSchema {
   collectionName: 'user_network_subscribers';
   info: {
     displayName: 'User Network Subscriber';
