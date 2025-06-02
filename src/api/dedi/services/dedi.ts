@@ -40,28 +40,57 @@ export default {
     },
 
     async _makeRequest(endpoint: string, method: string, body?: object): Promise<any> {
-        const url = `${BASE_URL}${endpoint}`;
-        const options: RequestInit = {
-            method,
-            headers: { "Content-Type": "application/json" },
+        // Construct the full URL by combining base URL and endpoint
+        const fullUrl = BASE_URL + endpoint;
+
+        // Create headers object
+        const requestHeaders = {
+            "Content-Type": "application/json"
+        };
+
+        // Create request options object
+        const requestOptions = {
+            method: method,
+            headers: requestHeaders,
             body: body ? JSON.stringify(body) : undefined
         };
 
+        // Make the HTTP request
+        let response;
         try {
-            const response = await fetch(url, options);
-            const result = await response.json();
+            response = await fetch(fullUrl, requestOptions);
+        } catch (fetchError) {
+            strapi.log.error(`Failed to make request to ${endpoint}:`, fetchError);
+            throw fetchError;
+        }
 
-            if (!response.ok) {
-                const errorMessage = response.status === 400 && result.error 
-                    ? result.error 
-                    : result.message || `Request to ${endpoint} failed with status ${response.status}`;
-                throw new Error(errorMessage);
+        // Parse response body
+        let result;
+        try {
+            result = await response.json();
+        } catch (parseError) {
+            strapi.log.error(`Failed to parse response from ${endpoint}:`, parseError);
+            throw parseError;
+        }
+
+        // Check if response was successful
+        if (response.ok === false) {
+            // Handle error response
+            let errorMessage;
+            if (response.status === 400 && result.error) {
+                errorMessage = result.error;
+            } else if (result.message) {
+                errorMessage = result.message;
+            } else {
+                errorMessage = `Request to ${endpoint} failed with status ${response.status}`;
             }
 
-            return result;
-        } catch (error: any) {
-            strapi.log.error(`DeDi API Error (${endpoint}):`, error.message);
-            throw error; // Preserve original error stack trace
+            // Log and throw error
+            strapi.log.error(`Request failed: ${errorMessage}`);
+            throw new Error(errorMessage);
         }
+
+        // Return successful response
+        return result;
     },
 };
