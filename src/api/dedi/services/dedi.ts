@@ -40,31 +40,28 @@ export default {
     },
 
     async _makeRequest(endpoint: string, method: string, body?: object): Promise<any> {
-        try {
-            const response = await fetch(`${BASE_URL}${endpoint}`, {
-                method,
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: body ? JSON.stringify(body) : undefined,
-            });
+        const url = `${BASE_URL}${endpoint}`;
+        const options: RequestInit = {
+            method,
+            headers: { "Content-Type": "application/json" },
+            body: body ? JSON.stringify(body) : undefined
+        };
 
+        try {
+            const response = await fetch(url, options);
             const result = await response.json();
 
             if (!response.ok) {
-                // If the response has an "error" field, throw it directly
-                if (response.status === 400 && result.error) {
-                    throw new Error(result.error);
-                }
-
-                // Generic error handling for other cases
-                throw new Error(result.message || `Request to ${endpoint} failed with status ${response.status}`);
+                const errorMessage = response.status === 400 && result.error 
+                    ? result.error 
+                    : result.message || `Request to ${endpoint} failed with status ${response.status}`;
+                throw new Error(errorMessage);
             }
 
             return result;
         } catch (error: any) {
             strapi.log.error(`DeDi API Error (${endpoint}):`, error.message);
-            throw new Error(error.message); // Re-throwing exact error for better debugging
+            throw error; // Preserve original error stack trace
         }
     },
 };
