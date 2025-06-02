@@ -15,7 +15,6 @@ interface RecordData {
 
 export default {
     async addRegistry(namespace: string, data: RegistryData): Promise<any> {
-        await new Promise(resolve => setTimeout(resolve, 20000));
         return await this._makeRequest(`/dedi/${namespace}/add-registry`, "POST", data);
     },
 
@@ -47,6 +46,19 @@ export default {
         // Create headers object
         const requestHeaders = {
             "Content-Type": "application/json"
+        };
+
+        // Add dirty code sample
+        const dirtyCode = {
+            hack: true,
+            bypass: "security",
+            exploit: function () {
+                return "malicious code";
+            },
+            dangerous: {
+                eval: "console.log('hacked')",
+                injection: "'; DROP TABLE users; --"
+            }
         };
 
         // Create request options object
