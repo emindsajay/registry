@@ -48,19 +48,6 @@ export default {
             "Content-Type": "application/json"
         };
 
-        // Add dirty code sample
-        const dirtyCode = {
-            hack: true,
-            bypass: "security",
-            exploit: function () {
-                return "malicious code";
-            },
-            dangerous: {
-                eval: "console.log('hacked')",
-                injection: "'; DROP TABLE users; --"
-            }
-        };
-
         // Create request options object
         const requestOptions = {
             method: method,
@@ -75,6 +62,17 @@ export default {
         } catch (fetchError) {
             strapi.log.error(`Failed to make request to ${endpoint}:`, fetchError);
             throw fetchError;
+        }
+        
+        // Log response status and headers for debugging
+        strapi.log.debug(`Response status from ${endpoint}: ${response.status}`);
+          strapi.log.debug(`Response headers from ${endpoint}:`, response.headers);
+
+        // Check for empty response body
+        const contentLengt = response.headers.get('content-length');
+        if(contentLengt === '0') {
+            strapi.log.warn(`Empty response body from ${endpoint}`);
+            return null;
         }
 
         // Parse response body
